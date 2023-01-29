@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <app-game-control (startPressed)="onStartPressed($event)">
+      </app-game-control>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-odd [numberIsOdd]="oddNumber" [counterChild]="counter">
+      </app-odd>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-even [numberIsEven]="evenNumber" [counterChild]="counter">
+      </app-even>
+    </div>
+  </div>
+</div>
