@@ -11,9 +11,9 @@ import { ServersService } from '../servers.service';
 export class ServerComponent implements OnInit {
   server: { id: number, name: string, status: string };
 
-  constructor(private serversService: ServersService, 
-              private route: ActivatedRoute,
-              private router: Router) { }
+  constructor(private serversService: ServersService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     const id = +this.route.snapshot.params['id'];
@@ -21,19 +21,13 @@ export class ServerComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-            this.server = this.serversService.getServer(+params['id']);
+          this.server = this.serversService.getServer(+params['id']);
         }
       )
   }
-  
-  onEdit(){
-    this.router.navigate(['/servers', +this.route.snapshot.params['id'], 'edit'])
-    this.route.params 
-      .subscribe(
-        (params: Params) => {
-          this.router.navigate(['/servers',+params['id'],'edit']);
-        }
-      )
+
+  onEdit() {
+    this.router.navigate(['edit'], { relativeTo: this.route })
   }
 
 }
