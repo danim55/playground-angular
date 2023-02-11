@@ -10,28 +10,32 @@ import { UserComponent } from "./users/user/user.component";
 import { UsersComponent } from "./users/users.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent },
-    {
-      path: 'users', component: UsersComponent, children: [
-        
-        { path: ':id/:name', component: UserComponent },
-      ]
-    },
-    {
-      path: 'servers', canActivate: [AuthGuard],component: ServersComponent, children: [
-        { path: ':id/edit', component: EditServerComponent },
-        { path: ':id', component: ServerComponent }
-      ]
-    },
-    { path: 'not-found', component: PageNotFoundComponent },
-    { path: '**', redirectTo: '/not-found' } // This must be the last ALWAYS
-  ]
+  { path: '', component: HomeComponent },
+  {
+    path: 'users', component: UsersComponent, children: [
+
+      { path: ':id/:name', component: UserComponent },
+    ]
+  },
+  {
+    path: 'servers',
+    // canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: ServersComponent,
+    children: [
+      { path: ':id/edit', component: EditServerComponent },
+      { path: ':id', component: ServerComponent }
+    ]
+  },
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/not-found' } // This must be the last ALWAYS
+]
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(appRoutes)
-    ],
-    exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(appRoutes)
+  ],
+  exports: [RouterModule]
 
 })
 export class AppRoutingModule {
