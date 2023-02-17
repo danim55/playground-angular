@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { interval, Observable, Subscription } from 'rxjs'
-import { errorObject } from 'rxjs/internal-compatibility';
+import { Observable, Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-home',
@@ -20,22 +20,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       setInterval(() => {
         observer.next(count);
         count++;
-        if(count == 2){
+        if (count == 2) {
           observer.complete()
         }
-        if(count > 3){
+        if (count > 3) {
           observer.error(new Error('Number is greater than three'));
         }
       }, 1000)
     })
-    this.firstObsSubscription = customIntervalObservable.subscribe((counter: number) => {
-      console.log(counter);
-    }, (error: Error) => {
-      console.log(error);
-      alert(error.message);
-    }, ()=> {
-      console.log('Status: completed')
-    });
+    this.firstObsSubscription = customIntervalObservable.pipe(map((count: number) => {
+      return 'Round: ' + (count +1);
+    })).subscribe((counter: number) => {
+        console.log(counter);
+      }, (error: Error) => {
+        console.log(error);
+        alert(error.message);
+      }, () => {
+        console.log('Status: completed')
+      });
   }
 
   ngOnDestroy() {
