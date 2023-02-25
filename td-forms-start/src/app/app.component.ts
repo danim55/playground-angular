@@ -13,6 +13,14 @@ export class AppComponent {
   defaultSelectValue = "teacher";
   answer : string = '';
   genders = ['male','female','helicopter'];
+  someUser = {
+    userName: '',
+    mail: '',
+    secretQuestion: '',
+    answer: '',
+    gender: ''
+  }
+  submitSelected :boolean = false;
 
   suggestUserName() {
     
@@ -39,6 +47,11 @@ export class AppComponent {
   // }
 
   onSubmit() {
-    console.log(this.signUpForm);
+    this.submitSelected = true;
+    this.someUser.userName = this.signUpForm.value.userData.username;
+    this.someUser.mail = this.signUpForm.value.userData.mail;
+    this.someUser.secretQuestion = this.signUpForm.value.secret;
+    this.someUser.answer = this.signUpForm.value.questionAnswer;
+    this.someUser.gender = this.signUpForm.value.gender;
   }
 }

@@ -39,4 +39,16 @@
       </form>
     </div>
   </div>
+  <hr>
+  <div class="row" *ngIf="submitSelected">
+    <div class="col-xs-12">
+      <h3>Your Data</h3>
+      <p>Username: {{ someUser.userName }}</p>
+      <p>Mail: {{someUser.mail}} </p>
+      <p>Secret Question: {{someUser.secretQuestion}}</p>
+      <p>Answer: {{someUser.answer}}</p>
+      <p>Gender: {{someUser.gender}}</p>
+      <p>{{someUser.answer}}</p>
+    </div>
+  </div>
 </div>
