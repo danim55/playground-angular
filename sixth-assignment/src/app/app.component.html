@@ -1,10 +1,27 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form action="">
-        <label for="">
-          <input type="mail">
-        </label>
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <div class="form-group">
+          <label for="email">Mail</label>
+          <input type="email" class="form-control" ngModel name="mail" required email #email="ngModel">
+          <span class="help-block" *ngIf="email.invalid && email.touched">Plese enter a valid mail</span>
+        </div>
+        <div class="form-group">
+          <label for="Subscription">Subscription</label>
+          <select id="subscription" class="form-control" [ngModel]="defaultSubscription" name="subscription">
+            <option value="basic">Basic</option>
+            <option value="advanced">Advanced</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" ngModel name="password" required #password="ngModel">
+          <span class="help-block" *ngIf="password.invalid && password.touched">Plese enter a valid password</span>
+        </div>
+        <span class="help-block" *ngIf="form.invalid && form.touched">Form is invalid</span>
+        <button [disabled]="form.invalid" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>
