@@ -12,7 +12,7 @@ export class AppComponent {
   @ViewChild('form') someForm: NgForm;
 
   onSubmit(){
-    console.log(this.someForm);
+    console.log(this.someForm.value);
   }
 
 }
