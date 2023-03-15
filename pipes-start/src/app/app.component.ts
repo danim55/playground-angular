@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  limit: number = 10;
   servers = [
     {
       instanceType: 'medium',
