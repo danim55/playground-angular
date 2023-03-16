@@ -5,6 +5,7 @@
         <label for="filterStatus">Filter</label>
         <input class="form-control" style="margin-bottom: 5px" type="text" [(ngModel)]="filterStatus">
       </div>
+      <button class="btn btn-primary" style="margin-top: 5px; margin-bottom: 5px;" (click)="onAddServer()">Add Server</button>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let server of servers | filter:filterStatus:'status'"
           [ngClass]="getStatusClasses(server)">
