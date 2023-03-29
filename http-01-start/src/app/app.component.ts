@@ -9,23 +9,31 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   loadedPosts = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  ngOnInit() {}
+  ngOnInit() { 
+    this.fetchPosts()
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
-    // Send Http request
-    this.http.post('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/post.json',
-     postData).subscribe(responseData => {
-      console.log(responseData);
-     })
+    this.http.post('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
+      postData).subscribe(responseData => {
+        console.log(responseData);
+      })
   }
 
   onFetchPosts() {
-    // Send Http request
+    this.fetchPosts()
   }
 
   onClearPosts() {
     // Send Http request
+  }
+
+  fetchPosts() {
+    this.http.get('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+      .subscribe(posts => {
+        console.log(posts);
+      })
   }
 }
