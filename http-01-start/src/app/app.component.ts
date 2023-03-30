@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Post } from './post.module';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { Post } from './post.module';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
+  @ViewChild('postForm') postForm: NgForm; 
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
         postData).subscribe(responseData => {
           console.log(responseData);
         })
+    this.postForm.reset();
   }
 
   onFetchPosts() {
@@ -46,7 +49,7 @@ export class AppComponent implements OnInit {
         return postArray;
       }))
       .subscribe(posts => {
-        console.log(posts);
+        this.loadedPosts = posts;
       })
   }
 }
