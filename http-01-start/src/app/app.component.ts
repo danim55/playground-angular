@@ -13,12 +13,16 @@ import { PostsService } from './posts.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching: boolean = false;
-  @ViewChild('postForm') postForm: NgForm; 
+  @ViewChild('postForm') postForm: NgForm;
 
   constructor(private http: HttpClient, private postsService: PostsService) { }
 
   ngOnInit() {
-    this.fetchPosts()
+    this.isFetching = true;
+    this.postsService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+      this.isFetching = false;
+    })
   }
 
   onCreatePost(postData: { title: string; content: string }) {
@@ -27,15 +31,15 @@ export class AppComponent implements OnInit {
   }
 
   onFetchPosts() {
-    this.fetchPosts()
+    this.isFetching = true;
+    this.postsService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+      this.isFetching = false;
+    })
   }
 
   onClearPosts() {
     // Send Http request
   }
 
-  private fetchPosts() {
-    this.postsService.fetchPosts();
-    this.isFetching = true;
-  }
 }

@@ -18,7 +18,7 @@ export class PostsService {
     }
 
     fetchPosts(){
-        this.http
+        return this.http
         .get<{ [key: string]: Post }>('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
         .pipe(map(responseData => {
           const postArray: Post[] = [];
@@ -28,8 +28,6 @@ export class PostsService {
             }
           }
           return postArray;
-        }))
-        .subscribe(posts => {
-        })
+        }));
     }
 }
