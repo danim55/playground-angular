@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Post } from './post.module';
 import { NgForm } from '@angular/forms';
+import { PostsService } from './posts.service';
 
 @Component({
   selector: 'app-root',
@@ -11,20 +12,17 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
+  isFetching: boolean = false;
   @ViewChild('postForm') postForm: NgForm; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private postsService: PostsService) { }
 
   ngOnInit() {
     this.fetchPosts()
   }
 
   onCreatePost(postData: { title: string; content: string }) {
-    this.http
-      .post<{ name: string }>('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
-        postData).subscribe(responseData => {
-          console.log(responseData);
-        })
+    this.postsService.createAndStorePost(postData.title, postData.content);
     this.postForm.reset();
   }
 
@@ -37,19 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    this.http
-      .get<{ [key: string]: Post }>('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
-      .pipe(map(responseData => {
-        const postArray: Post[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            postArray.push({ ...responseData[key], id: key })
-          }
-        }
-        return postArray;
-      }))
-      .subscribe(posts => {
-        this.loadedPosts = posts;
-      })
+    this.postsService.fetchPosts();
+    this.isFetching = true;
   }
 }
