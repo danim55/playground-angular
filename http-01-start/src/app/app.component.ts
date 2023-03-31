@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Post } from './post.module';
 import { NgForm } from '@angular/forms';
 import { PostsService } from './posts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,17 +15,24 @@ export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching: boolean = false;
   error: Error = null;
+  errorSub: Subscription;
   @ViewChild('postForm') postForm: NgForm;
 
-  constructor(private http: HttpClient, private postsService: PostsService) { }
+  constructor(private postsService: PostsService) { }
 
   ngOnInit() {
+    this.postsService.error.subscribe((error: Error) => {
+      this.error = error;
+      console.log(error);
+    })
+
     this.isFetching = true;
     this.postsService.fetchPosts().subscribe(posts => {
       this.loadedPosts = posts;
       this.isFetching = false;
     }, error => {
-      this.error = error.message;
+      this.error = error;
+      console.log(this.error);
     })
   }
 
@@ -39,7 +47,7 @@ export class AppComponent implements OnInit {
       this.loadedPosts = posts;
       this.isFetching = false;
     }, error => {
-      this.error = error.message;
+      this.error = error;
     })
   }
 
