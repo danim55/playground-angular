@@ -32,10 +32,7 @@ export class PostsService {
   }
 
   deletePosts() {
-    this.http
-      .delete('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
-      .subscribe(respose => {
-        console.log(respose);
-      })
+    return this.http
+      .delete('https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json');
   }
 }
