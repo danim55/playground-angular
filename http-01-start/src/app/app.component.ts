@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
     }, error => {
       this.isFetching = false;
       this.error = error;
-      // Testing protected branch
     })
   }
 
