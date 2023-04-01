@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
       this.isFetching = false;
     }, error => {
       this.error = error;
+      // test
     })
   }
 
