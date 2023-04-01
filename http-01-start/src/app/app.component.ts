@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.postsService.error.subscribe((error: Error) => {
       this.error = error;
-      console.log(error);
     })
 
     this.isFetching = true;
@@ -31,8 +30,8 @@ export class AppComponent implements OnInit {
       this.loadedPosts = posts;
       this.isFetching = false;
     }, error => {
+      this.isFetching = false;
       this.error = error;
-      console.log(this.error);
     })
   }
 
@@ -40,16 +39,22 @@ export class AppComponent implements OnInit {
     this.postsService.createAndStorePost(postData.title, postData.content);
     this.postForm.reset();
   }
-
+  
   onFetchPosts() {
     this.isFetching = true;
     this.postsService.fetchPosts().subscribe(posts => {
       this.loadedPosts = posts;
       this.isFetching = false;
     }, error => {
+      this.isFetching = false;
       this.error = error;
       // test
     })
+  }
+
+  onHandleError(){
+    this.isFetching = false;
+    this.error = null;
   }
 
   onClearPosts() {
