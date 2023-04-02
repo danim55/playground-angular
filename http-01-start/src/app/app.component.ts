@@ -1,6 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Post } from './post.module';
 import { NgForm } from '@angular/forms';
 import { PostsService } from './posts.service';
@@ -11,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   loadedPosts: Post[] = [];
   isFetching: boolean = false;
   error: Error = null;
@@ -21,7 +19,7 @@ export class AppComponent implements OnInit {
   constructor(private postsService: PostsService) { }
 
   ngOnInit() {
-    this.postsService.error.subscribe((error: Error) => {
+    this.errorSub = this.postsService.error.subscribe((error: Error) => {
       this.error = error;
     })
 
@@ -29,7 +27,7 @@ export class AppComponent implements OnInit {
     this.postsService.fetchPosts().subscribe(posts => {
       this.loadedPosts = posts;
       this.isFetching = false;
-    }, error => {
+    }, (error: Error) => {
       this.isFetching = false;
       this.error = error;
     })
@@ -39,19 +37,19 @@ export class AppComponent implements OnInit {
     this.postsService.createAndStorePost(postData.title, postData.content);
     this.postForm.reset();
   }
-  
+
   onFetchPosts() {
     this.isFetching = true;
     this.postsService.fetchPosts().subscribe(posts => {
       this.loadedPosts = posts;
       this.isFetching = false;
-    }, error => {
+    }, (error: Error) => {
       this.isFetching = false;
       this.error = error;
     })
   }
 
-  onHandleError(){
+  onHandleError() {
     this.isFetching = false;
     this.error = null;
   }
@@ -60,6 +58,10 @@ export class AppComponent implements OnInit {
     this.postsService.deletePosts().subscribe(response => {
       this.loadedPosts = [];
     })
+  }
+
+  ngOnDestroy(): void {
+    this.errorSub.unsubscribe();
   }
 
 }

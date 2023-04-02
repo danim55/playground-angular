@@ -40,7 +40,7 @@
       <p *ngIf="isFetching && !error">Loading ...</p>
       <div *ngIf="error" class="alert alert-danger">
         <h3>An Error Ocurred</h3>
-        <p>{{error.error.error}}</p>
+        <p>{{error.message}}</p>
         <button class="btn btn-danger" (click)="onHandleError()">Okey</button>
       </div>
     </div>
