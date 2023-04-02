@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
@@ -23,13 +23,16 @@ export class PostsService {
   }
 
   fetchPosts() {
+    let customParams = new HttpParams();
+    customParams = customParams.append('print', 'pretty');
+    customParams = customParams.append('custom','ronaldo');
+
     return this.http
       .get<{ [key: string]: Post }>(
         'https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
         {
-          headers: new HttpHeaders({
-            'Accept': 'application/json'
-          })
+          headers: new HttpHeaders({ 'Accept': 'application/json' }),
+          params: customParams,
         }
       )
       .pipe(map(responseData => {
