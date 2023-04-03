@@ -38,6 +38,7 @@ export class PostsService {
         {
           headers: new HttpHeaders({ 'Accept': 'application/json' }),
           params: customParams,
+          responseType: 'json',
         }
       )
       .pipe(map(responseData => {
@@ -61,6 +62,7 @@ export class PostsService {
         'https://http-angular-course-25d77-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
         {
           observe: 'events',
+          responseType: 'text',
         }
       ).pipe(tap(event => {
         if (event.type === HttpEventType.Sent) {
